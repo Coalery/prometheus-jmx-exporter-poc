@@ -1,0 +1,24 @@
+-- Debezium이 사용할 계정에 전체 권한 부여
+GRANT ALL PRIVILEGES ON *.* TO 'debezium_user'@'%';
+FLUSH PRIVILEGES;
+
+-- 초기 스키마 및 권한 설정
+CREATE DATABASE IF NOT EXISTS test;
+USE test;
+
+-- CDC 대상 테이블 생성
+CREATE TABLE IF NOT EXISTS `test`.`Something` (
+  id INT NOT NULL AUTO_INCREMENT,
+  content MEDIUMTEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+);
+
+CREATE DATABASE IF NOT EXISTS other;
+USE other;
+
+CREATE TABLE IF NOT EXISTS `other`.`Anyone` (
+  id VARCHAR(120) PRIMARY KEY,
+  data VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
